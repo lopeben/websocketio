@@ -20,12 +20,14 @@ This is a simple Flask application that uses the Flask-SocketIO extension to emi
 6. `socketio.run(app, debug=True, host='0.0.0.0', port=5000)`: This line runs the Flask web server on host ‘0.0.0.0’ and port 5000. The `debug=True` argument means that the server will provide more detailed error messages if something goes wrong.
 
 ## Dependencies (Install via Pip)
-1. **flask-socketio**
-
+1. **flask**
+2. **flask-socketio**
+   
 ### Install the following to improve performance
-2. **eventlet=0.36.1** -- If this does not work due to `socket.on()` not receiving an event, try the following alternatives:
+3. **eventlet=0.36.1** -- If this does not work due to `socket.on()` not receiving an event, try the following alternatives:
     - **gevent=24.2.1**
     - **gevent-websocket=0.10.1**
+
 ## Launch the server
 **python app_flaskserver.py**
 
