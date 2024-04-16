@@ -37,7 +37,9 @@ socketio.emit('temperature', {'data': str(round(temp,2))}): This line emits the 
 ## Dependencies (Install via Pip)
 1. flask-socketio
 ### Install the following to improve performance
-2. eventlet=0.36.1 -- if this does not work due to socket.on('temperature', function(msg) not receiving any event try these two below 
+2. eventlet=0.36.1 -- if this does not work due to socket.on('temperature', function(msg) not receiving any event try these two below
+   
 or
+
 3.1 gevent=24.2.1
 3.2 gevent-websocket=0.10.1
