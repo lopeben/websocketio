@@ -15,7 +15,7 @@ This is different from the traditional request-response model where the client h
 
 4. document.getElementById('temperature').innerHTML = msg.data: This line updates the HTML content of the element with the id ‘temperature’ with the data received from the server.
 
-## Server side (Flask application)
+## Server side (Flask Application)
 
 This is a simple Flask application that uses the Flask-SocketIO extension to emit temperature data to connected clients. The script acts as a server
 that emits a random temperature value to all connected clients every second. Clients can view this data by navigating to the /temperature route. The temperature data is generated in a background task, so it doesn’t interfere with the handling of client requests. 
