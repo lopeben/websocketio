@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Temperature</title>
+    <link rel="stylesheet" href='/static/style.css' />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            var socket = io.connect('http://' + document.domain + ':' + location.port);
+            console.log('Socket.IO connected');
+
+            socket.on('temperature', function(msg) {
+                console.log('Received temperature event');
+                console.log(msg.data);
+
+                document.getElementById('temperature').innerHTML = msg.data;
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div class="card">
+        <div class="content">
+            <h2>Room Temperature</h2>
+            <p><span id="temperature"></span> °C</p>
+        </div>
+    </div>
+</body>
+
+</html>
