@@ -27,7 +27,7 @@ This is a simple Flask application that uses the Flask-SocketIO extension to emi
     - **gevent=24.2.1**
     - **gevent-websocket=0.10.1**
 ## Launch the server
-**python flaskserver.py**
+**python app_flaskserver.py**
 
 ## Viewing at the browser
 **http://localhost:5000/temperature**
