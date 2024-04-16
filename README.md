@@ -15,5 +15,22 @@ This is different from the traditional request-response model where the client h
 
 4. document.getElementById('temperature').innerHTML = msg.data: This line updates the HTML content of the element with the id ‘temperature’ with the data received from the server.
 
+## Server side (Flask application)
 
+This is a simple Flask application that uses the Flask-SocketIO extension to emit temperature data to connected clients. The script acts as a server
+that emits a random temperature value to all connected clients every second. Clients can view this data by navigating to the /temperature route. The temperature data is generated in a background task, so it doesn’t interfere with the handling of client requests. 
+The server runs on host ‘0.0.0.0’ and port 5000.
 
+1. app = Flask(__name__): This line creates a new Flask web server instance.
+socketio = SocketIO(app): This line initializes a new instance of Flask-SocketIO. It allows the Flask application to use WebSockets, which provide a persistent connection between the client and the server.
+
+2. @app.route('/temperature'): This decorator creates a new route on the web server. When a client navigates to <your-server-url>/temperature, the function below this decorator will be executed.
+
+3. def temperature(): return render_template('temperature.html'): This function renders the temperature.html template when the /temperature route is accessed.
+
+4. def generate_temperature():: This function generates a random temperature value between 20.0 and 30.0 every second.
+socketio.emit('temperature', {'data': str(round(temp,2))}): This line emits the generated temperature value to all connected clients on the ‘temperature’ channel.
+
+5. socketio.start_background_task(generate_temperature): This line starts the generate_temperature function as a background task. This means that the function will run independently of any client requests.
+
+6. socketio.run(app, debug=True, host='0.0.0.0', port=5000): This line runs the Flask web server on host ‘0.0.0.0’ and port 5000. The debug=True argument means that the server will provide more detailed error messages if something goes wrong.
