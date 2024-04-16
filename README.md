@@ -21,8 +21,7 @@ This is a simple Flask application that uses the Flask-SocketIO extension to emi
 that emits a random temperature value to all connected clients every second. Clients can view this data by navigating to the /temperature route. The temperature data is generated in a background task, so it doesn’t interfere with the handling of client requests. 
 The server runs on host ‘0.0.0.0’ and port 5000.
 
-1. app = Flask(__name__): This line creates a new Flask web server instance.
-socketio = SocketIO(app): This line initializes a new instance of Flask-SocketIO. It allows the Flask application to use WebSockets, which provide a persistent connection between the client and the server.
+1. app = Flask(__name__) and socketio = SocketIO(app): Creates a new istances of the Flask web server and initializes a new instance of Flask-SocketIO. It allows the Flask application to use WebSockets, which provide a persistent connection between the client and the server.
 
 2. @app.route('/temperature'): This decorator creates a new route on the web server. When a client navigates to <your-server-url>/temperature, the function below this decorator will be executed.
 
