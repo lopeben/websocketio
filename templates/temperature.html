@@ -8,7 +8,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', (event) => {
 		
-		    const socket;
+		    let socket;
 			
 			if (location.port) {
 				socket = io.connect('http://' + document.domain + ':' + location.port);
