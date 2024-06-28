@@ -10,8 +10,9 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
 app.logger.setLevel(logging.INFO)  # or logging.DEBUG for debug level messages
 # socketio = SocketIO(app)
+# socketio = SocketIO(app, async_mode='gevent', cors_allowed_origins="*")
 socketio = SocketIO(app, async_mode='gevent', logger=True, engineio_logger=True)
-#socketio = SocketIO(app, async_mode='gevent', cors_allowed_origins="*") #http://ec2-13-215-173-209.ap-southeast-1.compute.amazonaws.com:80")
+
 
 
 @app.route('/temperature')
