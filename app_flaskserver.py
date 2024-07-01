@@ -37,12 +37,15 @@ def generate_temperature():
 
 if __name__ == '__main__':
     print("Staring server")
-    #print(flask_socketio.__version__)
     socketio.start_background_task(generate_temperature)
-    #socketio.emit('temperature', {'data': str(round(temp,2))})
-    #socketio.emit('temperature', {'data': str(round(temp,2))})
-    #socketio.emit('temperature', {'data': str(round(temp,2))})
-    socketio.run(app, host='0.0.0.0', port=80)
+
+
+    # Development Server Settings
     # socketio.run(app, debug=True, host='0.0.0.0', port=8000)
+    socketio.run(app, debug=True, ssl_context='adhoc')
+    
+    # Production Server Setting
+    # socketio.run(app, host='0.0.0.0', port=80)
+    
 
 
