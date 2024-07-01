@@ -42,10 +42,10 @@ if __name__ == '__main__':
 
     # Development Server Settings
     # socketio.run(app, debug=True, host='0.0.0.0', port=8000)
-    socketio.run(app, debug=True, ssl_context='adhoc')
+    # socketio.run(app, debug=True, ssl_context='adhoc')
     
     # Production Server Setting
-    # socketio.run(app, host='0.0.0.0', port=80)
+    socketio.run(app, host='0.0.0.0', port=80)
     
 
 
