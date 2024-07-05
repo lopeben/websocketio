@@ -6,6 +6,7 @@
     <link rel="stylesheet" href='/static/style.css' />
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
     <script>
+
         document.addEventListener('DOMContentLoaded', (event) => {
 		
 		    let socket;
@@ -19,6 +20,8 @@
             console.log(document.domain)
             console.log(location.port)
             console.log('Socket.IO connected');
+
+            socket.emit('request_stored_data');
 
             socket.on('temperature', function(msg) {
                 console.log('Received temperature event');
