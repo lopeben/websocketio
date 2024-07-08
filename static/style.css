@@ -48,3 +48,11 @@ body {
     /* Adjust the font size here */
     font-size: 64px;
 }
+
+#temperature-card {
+    left: 250px;
+}
+
+#humidity-card {
+    right: 250px;
+}

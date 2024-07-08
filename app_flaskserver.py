@@ -29,10 +29,13 @@ def handle_get_initial_data():
     try:
         with open('data.txt', 'r') as f:
             temp = f.read()
+            humd = temp
     except Exception as e:
         app.logger.error(f"Error in reading data: {e}")
         temp = "No data available"
-    socketio.emit('temperature', {'data': temp})
+
+    data_dict = {"temperature": temp, "humidity": humd}
+    socketio.emit('message', data_dict)
 
 
 @socketio.on('card_click')
@@ -57,7 +60,9 @@ def generate_temperature():
         try:
             with open('data.txt', 'r') as f:
                 temp = f.read()
-            socketio.emit('temperature', {'data': temp}) #, broadcast=True)
+                humd = temp
+            data_dict = {"temperature": temp, "humidity": humd}
+            socketio.emit('message', data_dict)
             app.logger.info("Event emitted")
         except Exception as e:
             app.logger.error(f"Error in generate_temperature: {e}")

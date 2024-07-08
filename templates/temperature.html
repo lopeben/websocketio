@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Temperature</title>
+    <title>Temperature and Humidity</title>
     <link rel="stylesheet" href='/static/style.css' />
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
     <script>
@@ -23,11 +23,13 @@
 
             socket.emit('request_stored_data');
 
-            socket.on('temperature', function(msg) {
-                console.log('Received temperature event');
-                console.log(msg.data);
+            socket.on('message', function(msg) {
+                console.log('Received message event');
+                console.log(msg.temperature);
+                console.log(msg.humidity);
 
-                document.getElementById('temperature').innerHTML = msg.data;
+                document.getElementById('temperature').innerHTML = msg.temperature;
+                document.getElementById('humidity').innerHTML = msg.humidity;
             });
 
             // Add event listener to the card
@@ -36,13 +38,37 @@
                 socket.emit('card_click');
             });
 
-            // Make the card draggable
-            let card = document.querySelector('.card');
-            card.draggable = true;
-            card.addEventListener('dragstart', function(e) {
-                e.dataTransfer.setData('text/plain', 'dummy');
-                console.log("Card dragged");
+            let draggedCard = null; // Add this line
+
+            // Make all cards draggable
+            let cards = document.querySelectorAll('.card');
+            cards.forEach((card) => {
+                card.draggable = true;
+                card.addEventListener('dragstart', function(e) {
+                    e.dataTransfer.setData('text/plain', 'dummy');
+                    console.log("Card dragged");
+                    draggedCard = card; // Set the draggedCard when drag starts
+                });
             });
+
+            // Handle the drop event
+            document.body.addEventListener('drop', function(e) {
+                e.preventDefault();
+                if (draggedCard) { // Check if a card is being dragged
+                    draggedCard.style.left = (e.pageX - draggedCard.offsetWidth / 10) + 'px';
+                    draggedCard.style.top = (e.pageY - draggedCard.offsetHeight / 10) + 'px';
+                    console.log("Card dropped");
+                    draggedCard = null; // Reset the draggedCard when drop is done
+                }
+            });
+
+            // Make the card draggable
+            // let card = document.querySelector('.card');
+            // card.draggable = true;
+            // card.addEventListener('dragstart', function(e) {
+            //     e.dataTransfer.setData('text/plain', 'dummy');
+            //     console.log("Card dragged");
+            // });
 
             // Handle the dragover event
             document.body.addEventListener('dragover', function(e) {
@@ -52,27 +78,33 @@
             });
 
             // Handle the drop event
-            document.body.addEventListener('drop', function(e) {
-                e.preventDefault();
-                card.style.left = (e.pageX - card.offsetWidth / 10) + 'px';
-                card.style.top = (e.pageY - card.offsetHeight / 10) + 'px';
-                console.log("Card dropped");
-            });
+            // document.body.addEventListener('drop', function(e) {
+            //     e.preventDefault();
+            //     card.style.left = (e.pageX - card.offsetWidth / 10) + 'px';
+            //     card.style.top = (e.pageY - card.offsetHeight / 10) + 'px';
+            //     console.log("Card dropped");
+            // });
 
         });
-
-
 
     </script>
 </head>
 
 <body>
-    <div class="card">
+    <div id="temperature-card" class="card">
         <div class="content">
             <h2>Room Temperature</h2>
             <p><span id="temperature"></span> °C</p>
         </div>
     </div>
+
+    <div id="humidity-card" class="card">
+        <div class="content">
+            <h2>Room Humidity</h2>
+            <p><span id="humidity"></span> %RH</p>
+        </div>
+    </div>
+
 </body>
 
 </html>
