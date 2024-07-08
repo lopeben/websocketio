@@ -57,4 +57,9 @@ if __name__ == '__main__':
     socketio.start_background_task(generate_random_data)
     socketio.start_background_task(generate_temperature)
 
-    socketio.run(app, host='0.0.0.0', port=80)
+    if is_mac():
+        # Debug setting WSGI
+        socketio.run(app, debug=False, host='0.0.0.0', port=5000, allow_unsafe_werkzeug=True)
+    else:
+        # Production setting WSGI
+        socketio.run(app, debug=False, host='0.0.0.0', port=80)
