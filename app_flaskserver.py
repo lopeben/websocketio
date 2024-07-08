@@ -8,7 +8,14 @@ from flask import Flask, render_template
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
 app.logger.setLevel(logging.INFO)  # or logging.DEBUG for debug level messages
-socketio = SocketIO(app, async_mode='gevent', logger=True, engineio_logger=True)
+
+def is_mac():
+    return platform.system() == 'Darwin'
+
+if is_mac():
+    socketio = SocketIO(app) # Use this when debugging in mac
+else:
+    socketio = SocketIO(app, async_mode='gevent', logger=True, engineio_logger=True)
 
 
 @app.route('/temperature')
