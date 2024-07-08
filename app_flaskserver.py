@@ -1,6 +1,7 @@
 import time
 import random
 import logging
+import platform
 from flask_socketio import SocketIO, emit
 from flask import Flask, render_template
 
