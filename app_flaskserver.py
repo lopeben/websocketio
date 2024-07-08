@@ -35,6 +35,11 @@ def handle_get_initial_data():
     socketio.emit('temperature', {'data': temp})
 
 
+@socketio.on('card_click')
+def handle_card_click():
+    app.logger.info("Card click handler")
+    
+
 def generate_random_data():
     while True:
         try:
@@ -71,3 +76,4 @@ if __name__ == '__main__':
     else:
         # Production setting WSGI
         socketio.run(app, debug=False, host='0.0.0.0', port=80)
+

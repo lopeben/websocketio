@@ -5,6 +5,9 @@ body {
     height: 100vh;
     margin: 0;
     background-color: #f4f4f4;
+    /* Lines added to support drag and drop */
+    position: relative;
+    overflow: hidden;
 }
 
 .card {
@@ -12,7 +15,7 @@ body {
     text-align: center;
     width: 300px;
     height: 400px;
-    background-color: #fff;
+    background-color: palegreen;
     border-radius: 15px;
     box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
     overflow: hidden;
@@ -21,11 +24,14 @@ body {
     justify-content: center;
     align-items: center;
     transition: all 0.3s ease-in-out;
+    /* Line added to support drag and drop*/
+    position: absolute;
 }
 
 .card:hover {
     box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
     transform: scale(1.05);
+    background-color: palevioletred /*#f8f9fa; */
 }
 
 .card .content {
