@@ -1,6 +1,7 @@
 import time
 import random
 import logging
+import platform
 from flask_socketio import SocketIO, emit
 from flask import Flask, render_template
 
@@ -8,7 +9,14 @@ from flask import Flask, render_template
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
 app.logger.setLevel(logging.INFO)  # or logging.DEBUG for debug level messages
-socketio = SocketIO(app, async_mode='gevent', logger=True, engineio_logger=True)
+
+def is_mac():
+    return platform.system() == 'Darwin'
+
+if is_mac():
+    socketio = SocketIO(app) # Use this when debugging in mac
+else:
+    socketio = SocketIO(app, async_mode='gevent', logger=True, engineio_logger=True)
 
 
 @app.route('/temperature')
@@ -21,11 +29,19 @@ def handle_get_initial_data():
     try:
         with open('data.txt', 'r') as f:
             temp = f.read()
+            humd = temp
     except Exception as e:
         app.logger.error(f"Error in reading data: {e}")
         temp = "No data available"
-    socketio.emit('temperature', {'data': temp})
 
+    data_dict = {"temperature": temp, "humidity": humd}
+    socketio.emit('message', data_dict)
+
+
+@socketio.on('card_click')
+def handle_card_click():
+    app.logger.info("Card click handler")
+    
 
 def generate_random_data():
     while True:
@@ -44,7 +60,9 @@ def generate_temperature():
         try:
             with open('data.txt', 'r') as f:
                 temp = f.read()
-            socketio.emit('temperature', {'data': temp}) #, broadcast=True)
+                humd = temp
+            data_dict = {"temperature": temp, "humidity": humd}
+            socketio.emit('message', data_dict)
             app.logger.info("Event emitted")
         except Exception as e:
             app.logger.error(f"Error in generate_temperature: {e}")
@@ -62,3 +80,9 @@ if __name__ == '__main__':
 
     socketio.run(app, host='0.0.0.0', port=80)
     
+    if is_mac():
+        # Debug setting WSGI
+        socketio.run(app, debug=False, host='0.0.0.0', port=5000, allow_unsafe_werkzeug=True)
+    else:
+        # Production setting WSGI
+        socketio.run(app, debug=False, host='0.0.0.0', port=80)
