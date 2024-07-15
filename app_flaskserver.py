@@ -56,5 +56,9 @@ if __name__ == '__main__':
     print("Staring server")
     socketio.start_background_task(generate_random_data)
     socketio.start_background_task(generate_temperature)
+    
+    # Development Server Settings
+    # socketio.run(app, debug=True, host='0.0.0.0', port=8000, allow_unsafe_werkzeug=True)
 
     socketio.run(app, host='0.0.0.0', port=80)
+    
